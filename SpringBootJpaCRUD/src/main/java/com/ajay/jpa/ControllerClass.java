@@ -23,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @Controller
 @CrossOrigin
 @RequestMapping("/")
+@Api(value="Controller class  ",description="defines all the routing info")
 public class ControllerClass {
 	private static final Logger log=(Logger)LoggerFactory.getLogger(ControllerClass.class);
 	
@@ -36,6 +40,7 @@ public class ControllerClass {
 		/* Redirect to home                                                       */
 	//*********************************************************************************
 	@RequestMapping(value="/")
+	@ApiOperation(value="shows the home screen")
 	public String home(Model model)
 	{
 		
@@ -48,6 +53,7 @@ public class ControllerClass {
 	
 	//For inserting i:e; redirect to a form
 	@RequestMapping("/insert")
+	@ApiOperation(value="leads to form for new positon")
 public String newposition(Model model)
 {
  Position posit=new Position();
@@ -57,6 +63,7 @@ return "insert";
 	
 	//for saving 
 	@PostMapping(value="/save")
+	@ApiOperation(value="saves the form data through post request")
 public String newposition(@ModelAttribute("posit") Position posit)
 {	
 		log.info("object is "+posit);
@@ -69,6 +76,7 @@ return "redirect:/showall";
    //******************************************************************************
 	
 	@RequestMapping("/edit/{id}")
+	@ApiOperation(value="leads to update form to update the position")
 public String editposition(@PathVariable("id") Long id ,Model model)
 {
  Position posit=new Position();
@@ -90,7 +98,7 @@ return "update";
    //******************************************************************************
 	@RequestMapping(value="/showall")
 
-	
+	@ApiOperation(value="used to list all the positions ")
 	public String showAll(Model model)
 	{
 		List<Position> positions = new ArrayList<Position>();
@@ -104,6 +112,7 @@ return "update";
     //                   Show all count position                                  
    //******************************************************************************
 	@RequestMapping(value="/showcount")
+	@ApiOperation(value="used to list the positon count with the respective recruiter info")
 	public String showRcCount(Model model)
 	{
 		List<Position> positions = new ArrayList<Position>();
@@ -120,6 +129,7 @@ return "update";
 	/* Remove  selected position                                                  */
 	//*****************************************************************************
 	@RequestMapping(value="/delete/{id}",method=RequestMethod.GET )
+	@ApiOperation(value="deletes specific positon")
 	public String delete(@PathVariable("id") Long id)
 	{
 		service.removePosition(id);
@@ -129,6 +139,7 @@ return "update";
 	/* Remove all positons */
 	//******************************************************************************
 	@RequestMapping(value="/clear" )
+	@ApiOperation(value="deletes all positon")
 	public String deleteAll()
 	{
 		service.clearList();
